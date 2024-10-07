@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Link Converter</title>
+</head>
+<body>
+  <h1>Link Converter</h1>
+  <form>
+    <label for="input-link">Enter words:</label>
+    <input type="text" id="input-link" name="input-link">
+    <label for="link-type">Select link type:</label>
+    <select id="link-type" name="link-type">
+      <option value="SEARCH">SEARCH</option>
+      <option value="TAG">TAG</option>
+      <option value="MY TAGS">MY TAGS</option>
+    </select>
+    <button type="submit">Convert (link will open in a new tab)</button>
+  </form>
+  <div id="output-link"></div>
+
+  <script>
+    const form = document.querySelector('form');
+    const inputLink = document.querySelector('#input-link');
+    const linkType = document.querySelector('#link-type');
+    const outputLink = document.querySelector('#output-link');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const words = inputLink.value.trim().split(' ');
+      const linkTypeValue = linkType.value;
+      let baseUrl = '';
+      let queryParam = '';
+
+      switch (linkTypeValue) {
+        case 'SEARCH':
+          baseUrl = 'https://creator.nightcafe.studio/search/creations?q=';
+          queryParam = words.join('+');
+          break;
+        case 'TAG':
+          baseUrl = 'https://creator.nightcafe.studio/tag/';
+          queryParam = words.map(word => word.toLowerCase()).join('-');
+          break;
+        case 'MY TAGS':
+          baseUrl = 'https://creator.nightcafe.studio/my-creations?q=';
+          queryParam = words.map(word => word.toLowerCase()).join('+');
+          break;
+        default:
+          outputLink.textContent = 'Invalid link type';
+          return;
+      }
+
+      const newLink = `${baseUrl}${queryParam}`;
+      outputLink.textContent = `New link: ${newLink}`;
+      outputLink.innerHTML = `<a href="${newLink}" target="_blank">${newLink}</a>`;
+      window.open(newLink, '_blank');
+    });
+  </script>
+</body>
+</html>
