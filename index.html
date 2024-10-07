@@ -41,7 +41,7 @@
           queryParam = words.map(word => word.toLowerCase()).join('-');
           break;
         case 'MY TAGS':
-          baseUrl = 'https://creator.nightcafe.studio/my-creations?q=';
+          baseUrl = 'https://creator.nightcafe.studio/my-creations?q=tag-';
           queryParam = words.map(word => word.toLowerCase()).join('+');
           break;
         default:
